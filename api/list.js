@@ -10,7 +10,7 @@ export default async function handler(req, res) {
   const params = new URLSearchParams({
     serviceKey: SERVICE_KEY,
     type: "json",
-    item_name: item_name,
+    item_name: name,
     numOfRows: "5",
     pageNo: "1",
   });
