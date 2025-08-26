@@ -1,7 +1,7 @@
 import fetch from "node-fetch";
 
 export default async function handler(req, res) {
-  const { name } = req.query;
+  const { item_name } = req.query; // 제품 허가목록은 품목명으로 조회
 
   const API_URL =
     "https://apis.data.go.kr/1471000/DrugPrdtPrmsnInfoService06/getDrugPrdtPrmsnInq06";
@@ -10,7 +10,7 @@ export default async function handler(req, res) {
   const params = new URLSearchParams({
     serviceKey: SERVICE_KEY,
     type: "json",
-    item_name: name,
+    item_name: item_name,
     numOfRows: "5",
     pageNo: "1",
   });
