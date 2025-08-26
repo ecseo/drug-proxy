@@ -1,9 +1,6 @@
 import fetch from "node-fetch";
 
 export default async function handler(req, res) {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Headers", "*");
-
   const { item_seq } = req.query; // 허가 상세정보조회는 품목기준코드로 조회
 
   const API_URL =
