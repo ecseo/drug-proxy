@@ -1,6 +1,9 @@
 import fetch from "node-fetch";
 
 export default async function handler(req, res) {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Headers", "*");
+
   const { name } = req.query; // 제품 허가목록은 품목명으로 조회
 
   const API_URL =
