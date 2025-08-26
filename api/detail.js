@@ -1,8 +1,11 @@
 import fetch from "node-fetch";
 
 export default async function handler(req, res) {
-  const { item_seq } = req.query; // 허가 상세정보조회는 품목기준코드로 조회
+  if (req.headers.authorization) {
+    delete req.headers.authorization;
+  }
 
+  const { item_seq } = req.query; // 허가 상세조회는 품목기준코드
   const API_URL =
     "https://apis.data.go.kr/1471000/DrugPrdtPrmsnInfoService06/getDrugPrdtPrmsnDtlInq05";
   const SERVICE_KEY = process.env.SERVICE_KEY;
@@ -10,24 +13,29 @@ export default async function handler(req, res) {
   const params = new URLSearchParams({
     serviceKey: SERVICE_KEY,
     type: "json",
-    item_seq: item_seq,
+    item_seq,
     numOfRows: "1",
     pageNo: "1",
   });
 
   try {
-    const response = await fetch(`${API_URL}?${params}`);
+    const url = `${API_URL}?${params}`;
+    console.log("📡 Request URL (detail):", url);
+
+    const response = await fetch(url);
     const text = await response.text();
 
     let data;
     try {
       data = JSON.parse(text);
     } catch {
-      return res.status(500).send({ error: "API returned XML", raw: text });
+      console.error("❌ API returned non-JSON:", text.slice(0, 200));
+      return res.status(500).json({ error: "API returned XML", raw: text });
     }
 
     res.status(200).json(data);
   } catch (err) {
+    console.error("❌ detail.js error:", err);
     res.status(500).json({ error: err.message });
   }
 }
