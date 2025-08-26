@@ -1,1 +1,1 @@
-# drug-proxy
+# drug-proxy-gpt
